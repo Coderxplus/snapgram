@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+
+<div class="login-container">
+    <h1 class="login-header">Login</h1>
+    <form method="POST" class="login-form" >
+        {% csrf_token %}
+        
+        <div class="django-form">
+            {{ form }}
+        </div>
+        
+        <p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="remember_me" id="remember_me">
+                <label class="form-check-label" for="remember_me">
+                    Remember Me
+                </label>
+            </div>
+        </p>
+        <button class="btn-login" type="submit">submit</button><br>
+        <a class="register-link" href="{% url "register" %}"> Dont have an account ?</a>
+    </form>
+
+</div>
+
+
+{% endblock content %}

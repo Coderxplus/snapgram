@@ -1,0 +1,67 @@
+{% extends "base2.html" %}
+{% block title %}Instagram Clone{% endblock title %}
+
+{% block content %}
+<div class="edit-post-container">
+    
+    <!-- Post Image -->
+    <div class="edit-post-image">
+        <img src="{{ post.image.url }}" alt="Post Image">
+    </div>
+
+    <!-- Post Info -->
+    <div class="edit-post-info">
+        
+        <!-- User Info -->
+        <div class="edit-post-header">
+            <img src="{{ post.user.profile.profile_pic.url }}" alt="User" class="avatar-edit">
+            <span class="username">{{ post.user.username }}</span>
+
+            {% if user == post.user %}
+                <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
+                <form class="del-btn" method="POST" action="{% url 'delete_post' post.id %}">
+                    {% csrf_token %}
+                    <button class="btn-delete"> Delete</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <!-- Post Caption -->
+        <p class="caption">{{ post.caption }}</p>
+
+        <!-- Edit Form (Hidden until 'Edit' clicked) -->
+        {% if user == post.user %}
+        <form action="{% url 'post_edit' post.id %}" method="POST" enctype="multipart/form-data" class="edit-form" style="display: none;">
+            {% csrf_token %}
+            <textarea name="caption" class="edit-caption">{{ post.caption }}</textarea>
+            <input type="file" name="image" class="edit-image">
+            <div class="form-actions">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <button type="button" class="btn-cancel">Cancel</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const editBtn = document.querySelector(".btn-edit");
+    const editForm = document.querySelector(".edit-form");
+    const caption = document.querySelector(".caption");
+    const cancelBtn = document.querySelector(".btn-cancel");
+
+    if (editBtn) {
+        editBtn.addEventListener("click", () => {
+            editForm.style.display = "block";
+            caption.style.display = "none";
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener("click", () => {
+            editForm.style.display = "none";
+            caption.style.display = "block";
+        });
+    }
+</script>
+{% endblock content %}

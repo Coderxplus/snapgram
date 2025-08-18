@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instagram Clone</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="{% static 'style/style2.css' %}">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">SnapGram</div>
+
+      <form method="GET" action="/">
+        <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+      </form>
+
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary">Logout</button>
+      </form>
+
+  <div class="nav-icons">
+    <a href="/"><i class="fas fa-home"></i></a>
+    <a href=""><i class="far fa-paper-plane"></i></a>
+    <a href="/post"><i class="far fa-plus-square"></i></a>
+
+    <!-- Profile Dropdown -->
+    <div class="dropdown">
+      <img src="{{ user.profile.profile_pic.url }}" class="avatar" alt="Profile" />
+      <div class="dropdown-menu">
+        <a href="{% url 'profile' request.user.username %}">View Profile</a>
+        <a href="{% url 'edit_profile' request.user.username %}">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    {% block content %}
+    
+    
+    {% endblock content %}
+    <script>
+      const dropdown = document.querySelector('.dropdown');
+      const menu = document.querySelector('.dropdown-menu');
+      const fileInput = document.getElementById("profile_pic");
+      const preview = document.getElementById("preview-pic");
+
+
+      dropdown.addEventListener('click', () => {
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+          menu.style.display = 'none';
+        }
+      });
+
+
+        
+
+      fileInput.addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            preview.src = URL.createObjectURL(file); // Change image preview
+          }
+      });
+
+
+    </script>
+</body>
+</html>

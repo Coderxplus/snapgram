@@ -1,0 +1,41 @@
+{% extends "base2.html" %}
+
+
+
+{% block content %}
+    <main style="margin-top:15px" class="profile-container">
+        <section class="profile-header">
+            <img src="{{profile_user.profile.profile_pic.url}}" alt="Profile Pic" class="profile-pic">
+            <div class="profile-info">
+                <div class="follow-btn-container">
+                    <h2>{{ profile_user.username}}</h2>
+                    {% if request.user != profile_user %}
+                        <form action="{% url 'follow' profile_user.username %}" method="post">
+                            {% csrf_token %}
+                            {% if is_following %}
+                                <button type="submit" class="unfollow-btn">Unfollow</button>
+                            {% else %}
+                                <button type="submit" class="follow-btn">Follow</button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </div>
+                <p><strong>{{ nopost }}</strong> posts • <strong>{{profile_user.followers.count}}</strong> followers • <strong>{{profile_user.following.count}}</strong> following</p>
+                <p class="bio">{{profile_user.profile.bio}}</p>
+                
+
+
+            </div>
+        </section>
+        
+        
+        <section class="gallery">
+            {% for post in posts  %}
+                <a href="{% url 'post_edit' post.id %}"><img src="{{post.image.url}}" alt="Post"></a>
+            {% endfor %}
+            
+        </section>
+    </main>
+
+    
+{% endblock content %}

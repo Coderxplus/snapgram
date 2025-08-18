@@ -1,0 +1,69 @@
+{% extends "base2.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="edit_profile.css">
+</head>
+<body>
+  <div class="edit-profile-container">
+    <div class="edit-profile-card">
+      <h2>Edit Profile</h2>
+      
+    
+       
+
+
+      <!-- Form -->
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+         <div class="profile-pic-wrapper">
+            <!-- Show current profile pic instead of placeholder -->
+               <!-- Profile Picture Upload -->
+            <img src="{{ edit_user.profile_pic.url }}" alt="Profile Picture" class="profile-pic" id="preview-pic">
+            
+            <label for="profile_pic" class="upload-btn">Change Photo</label>
+            <input name="pic" type="file" id="profile_pic" hidden>
+        </div>
+
+
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input value="{{edit_user.user.username}}" type="text" id="username" name="username" placeholder="Enter username">
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input value="{{edit_user.full_name}}" type="text" id="name" name="name" placeholder="Enter full name">
+        </div>
+
+        <!-- Bio -->
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" name="bio" rows="3" placeholder="Write something about yourself...">{{edit_user.bio}}</textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="submit" class="btn save">Save Changes</button>
+          <a href="/profile" class="btn cancel">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+{% endblock content %}
+
+

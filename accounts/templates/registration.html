@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+<div class="login-container">
+    <h1 class="login-header"> SocialGram </h1>
+    <form class="login-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ userform.as_p }}
+        {{ profileform.as_p }}
+        <input class="btn-login"   class="btn btn-primary"
+            type="submit"
+            value="submit"/>
+        <a class="register-link" href="/login">Already have an account</a>
+    </form>
+</div>
+    
+{% endblock content %}
