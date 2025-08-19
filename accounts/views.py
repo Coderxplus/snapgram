@@ -84,7 +84,7 @@ def edit_profile(request, user):
             return redirect("/")
             
     context = {
-        "edit_user":user,
+        "edit_user":profile,
     }
 
 
