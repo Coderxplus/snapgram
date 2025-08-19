@@ -594,6 +594,87 @@
       }
     }
 
+/* comment section */
+
+.comment-section {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid #eee;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #262626;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.comment-section.hidden {
+  display: none;
+}
+
+.comment-section form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.comment-section input[type="text"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 6px 0;
+  background: transparent;
+}
+
+.comment-section button {
+  border: none;
+  background: none;
+  color: #0095f6;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+}
+
+.comment-section button:hover {
+  opacity: 0.6;
+}
+
+/* existing comments */
+.comments-list p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.comments-list strong {
+  font-weight: 600;
+  margin-right: 6px;
+  color: #262626;
+}
+
+/* "Show less" link */
+.show-less {
+  display: inline-block;
+  color: #737373;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 6px;
+  transition: color 0.2s ease;
+}
+
+.show-less:hover {
+  color: #000;
+}
+
+/* Small fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
 /* edit_profile page */
 
 .edit-profile-container {

@@ -74,7 +74,7 @@ def edit_profile(request, user):
             full_name = request.POST.get("name")
             bio = request.POST.get("bio")
             if profile_pic:
-                user.profile_pic = profile_pic
+                profile.profile_pic = profile_pic
             
             profile.user.username = username
             profile.full_name = full_name
@@ -90,7 +90,8 @@ def edit_profile(request, user):
 
     return render(request, "edit_profile.html", context)
 
-    
+
+
 
 
 

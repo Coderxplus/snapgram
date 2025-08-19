@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Post, Follow
+from .models import Post, Follow, Comment
 from django.contrib.auth.models import User
 from .forms import PostForm
 
@@ -124,5 +124,17 @@ def follow_user(request, username):
         Follow.objects.create(follower=request.user, following=target_user)
     
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def add_comment(request, post_id):
+
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == "POST":
+        text = request.POST.get("comment")
+        if text.strip():
+            Comment.objects.create(post=post, user=request.user, text=text)
+    
+    return redirect("home")  
 
 # Create your views here.
