@@ -249,15 +249,22 @@
 }
 
     .feed {
-      margin-top: 20px;
-    }
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers posts horizontally */
+  }
 
-    .post {
-      background: white;
-      border: 1px solid #dbdbdb;
-      margin-bottom: 20px;
-      border-radius: 5px;
-    }
+  .post {
+    background: white;
+    border: 1px solid #dbdbdb;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px; /* limits post width */
+    overflow: hidden;
+  }
+
 
     .post-header {
       display: flex;
@@ -551,48 +558,115 @@
 }
 
 
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container styling */
+.post-form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+/* Form styling */
 .post-form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-form label {
-    margin: 10px 0 5px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
 }
 
-.post-form textarea,
-.post-form input[type="file"] {
-    margin-bottom: 15px;
-    padding: 8px;
-    font-size: 16px;
+.post-form input[type="file"],
+.post-form textarea {
+  margin-bottom: 16px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease;
 }
 
+.post-form input[type="file"]:focus,
+.post-form textarea:focus {
+  border-color: #007bff;
+}
+
+/* Button styling */
 .post-form button {
-    padding: 10px;
-    background-color: #3897f0;
-    color: white;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
+  padding: 12px;
+  background: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-    @media (max-width: 768px) {
-      header.navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
+.post-form button:hover {
+  background: #0056b3;
+}
 
-      .search-box {
-        width: 100%;
-      }
+/* Responsive */
+@media (max-width: 600px) {
+  .post-form-container {
+    margin: 20px;
+    padding: 15px;
+  }
 
-      .nav-icons {
-        justify-content: space-between;
-        width: 100%;
-      }
+  .post-form button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  header.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+
+    .nav-icons {
+      justify-content: space-between;
+      width: 100%;
     }
+    
+  }
+    
+  @media (max-width: 500px) {
+  .post {
+    margin: 10px;
+    border-radius: 5px;
+  }
+}
+
 
 /* comment section */
 

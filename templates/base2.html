@@ -13,10 +13,10 @@
   />
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="{% static 'style/style2.css' %}">
+  <link rel="stylesheet" href="{% static 'style/style2.css' %}?v={{ timestamp }}">
   
   <style>
-    /* You can add inline custom CSS here */
+    /* Inline custom CSS if needed */
   </style>
 </head>
 <body>
@@ -26,7 +26,7 @@
     <div class="logo">SnapGram</div>
 
     <!-- Search Form -->
-    <form method="GET" action="/">
+    <form method="GET" action="/" class="search-bar">
       <input 
         type="text" 
         name="q" 
@@ -121,13 +121,35 @@
           activeSection = null;
         });
       });
+    });
 
-  
+    // Handle comment submission via AJAX
+    document.querySelectorAll('.comment-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const postId = this.dataset.postId;
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const commentsList = document.querySelector(`#comment-section-${postId} .comments-list`);
+            const newComment = `<p><strong>${data.username}</strong> ${data.text}</p>`;
+            commentsList.insertAdjacentHTML('beforeend', newComment);
+            this.reset();
+          }
+        });
+      });
     });
   </script>
-
-</body>
-</html>
 
 </body>
 </html>

@@ -1,128 +1,132 @@
 {% extends "base2.html" %}
 
-
 {% block content %}
+<main class="container">
 
-    <main class="container">
+    {% if request.GET.q %}
+    <!-- Search Results -->
+    <section class="search-results">
+        <h2>Results for "{{ request.GET.q }}"</h2>
 
-        {% if request.GET.q %}
-        <!-- Search Results -->
-        <section class="search-results">
-            <h2>Results for "{{ request.GET.q }}"</h2>
-
-            <!-- User Results -->
-            {% if user_results %}
-                <h3>Users</h3>
-                <div class="user-results">
-                    {% for u in user_results %}
-                        <a href="{% url 'profile' u.username %}">
-                            <div class="user-card">
-                                {% if u.profile.profile_pic %}
-                                    <img src="{{ u.profile.profile_pic.url }}" alt="{{ u.username }}" class="avatar">
-                                {% else %}
-                                    <img src="https://placehold.co/100x100" class="avatar" alt="user"/>
-                                {% endif %}
-                                <span>{{ u.username }}</span>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>No users found.</p>
-            {% endif %}
-
-            <!-- Post Results -->
-            {% if post_results %}
-                <h3>Posts</h3>
-                <div class="post-results">
-                    {% for post in post_results %}
-                        <div class="post">
-                            <div class="post-header">
-                                <a href="{% url 'profile' post.user.username %}">
-                                    <img src="{{ post.user.profile.profile_pic.url }}" class="avatar" alt="user"/>
-                                </a>
-                                <span>{{ post.user.username }} || {{ post.created_at }}</span>
-                            </div>
-                            <img src="{{ post.image.url }}" class="post-img" alt="post"/>
-                            <p class="caption"><strong>{{ post.caption }}</strong></p>
+        <!-- User Results -->
+        {% if user_results %}
+            <h3>Users</h3>
+            <div class="user-results">
+                {% for u in user_results %}
+                    <a href="{% url 'profile' u.username %}">
+                        <div class="user-card">
+                            {% if u.profile.profile_pic %}
+                                <img src="{{ u.profile.profile_pic.url }}" alt="{{ u.username }}" class="avatar">
+                            {% else %}
+                                <img src="https://placehold.co/100x100" class="avatar" alt="user"/>
+                            {% endif %}
+                            <span>{{ u.username }}</span>
                         </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>No posts found.</p>
-            {% endif %}
-        </section>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+
+        <!-- Post Results -->
+        {% if post_results %}
+            <h3>Posts</h3>
+            <div class="post-results">
+                {% for post in post_results %}
+                    <div class="post">
+                        <div class="post-header">
+                            <a href="{% url 'profile' post.user.username %}">
+                                <img src="{{ post.user.profile.profile_pic.url }}" class="avatar" alt="user"/>
+                            </a>
+                            <span>{{ post.user.username }} || {{ post.created_at }}</span>
+                        </div>
+                        <img src="{{ post.image.url }}" class="post-img" alt="post"/>
+                        <p class="caption"><strong>{{ post.caption }}</strong></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No posts found.</p>
+        {% endif %}
+    </section>
     {% endif %}
-        <section class="stories">
+
+    <!-- Stories Section -->
+    <section class="stories">
         <div class="story"><img src="https://placehold.co/600x400" alt="Story" /></div>
         <div class="story"><img src="https://placehold.co/600x400" alt="Story" /></div>
         <div class="story"><img src="https://placehold.co/600x400" alt="Story" /></div>
         <div class="story"><img src="https://placehold.co/600x400" alt="Story" /></div>
-        </section>
+    </section>
 
-        <section class="feed">
-    {% for post in posts %}
-        <div class="post" data-post-id="{{ post.id }}">
-            <div class="post-header">
-                <a href="{% url 'profile' post.user.username %}">
-                    <img src="{{ post.user.profile.profile_pic.url }}" class="avatar" alt="user"/>
-                </a>
-                <span>{{ post.user.username}} || Date Created: {{ post.created_at}} </span>
-            </div>
-
-            <img src="{{ post.image.url }}" class="post-img" alt="post"/>
-
-            <div class="post-actions">
-                <form action="{% url 'like_post' post.id %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    {% if user in post.likes.all %}
-                        <button type="submit" class="btn-like liked">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    {% else %}
-                        <button type="submit" class="btn-like">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    {% endif %}
-                </form>
-
-                <!-- Comment button OUTSIDE the like form -->
-                <button type="button" class="btn-icons btn-comment" data-post-id="{{ post.id }}">
-                    <i class="far fa-comment"></i>
-                </button>
-
-                <button class="btn-icons"><i class="far fa-paper-plane"></i></button>
-            </div>
-
-            {% if user in post.likes.all %}
-                <p class="likes">Liked by you and {{ post.total_likes }} others</p>                            
-            {% else %}
-                <p class="likes">Liked by {{ post.total_likes }} others</p> 
-            {% endif %}
-
-            <p class="caption"><strong>{{ post.caption }}</strong></p>
-
-            <!-- Hidden comment section -->
-            <div class="comment-section hidden" id="comment-section-{{ post.id }}">
-                <form action="{% url 'add_comment' post.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="text" name="comment" placeholder="Add a comment..." required />
-                    <button type="submit">Post</button>
-                </form>
-
-                <!-- Show existing comments -->
-                <div class="comments-list">
-                    {% for comment in post.comments.all %}
-                        <p><strong>{{ comment.user.username }}</strong> {{ comment.text }}</p>
-                    {% endfor %}
+    <!-- Feed Section -->
+    <section class="feed">
+        {% for post in posts %}
+            <div class="post" data-post-id="{{ post.id }}">
+                <!-- Post Header -->
+                <div class="post-header">
+                    <a href="{% url 'profile' post.user.username %}">
+                        <img src="{{ post.user.profile.profile_pic.url }}" class="avatar" alt="user"/>
+                    </a>
+                    <span>{{ post.user.username }} || Date Created: {{ post.created_at }}</span>
                 </div>
 
-                <p class="show-less" data-post-id="{{ post.id }}">Show less</p>
-            </div>
-        </div>
-    {% endfor %}
-</section>
+                <!-- Post Image -->
+                <img src="{{ post.image.url }}" class="post-img" alt="post"/>
 
-    </main>
+                <!-- Post Actions -->
+                <div class="post-actions">
+                    <form action="{% url 'like_post' post.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        {% if user in post.likes.all %}
+                            <button id="likeBtn" data-post-id="{{ post.id }}" type="submit" class="btn-like liked">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        {% else %}
+                            <button id="likeBtn" data-post-id="{{ post.id }}" type="submit" class="btn-like">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        {% endif %}
+                    </form>
+
+                    <!-- Comment button -->
+                    <button type="button" class="btn-icons btn-comment" data-post-id="{{ post.id }}">
+                        <i class="far fa-comment"></i>
+                    </button>
+
+                    <button class="btn-icons"><i class="far fa-paper-plane"></i></button>
+                </div>
+
+                <!-- Likes -->
+                {% if user in post.likes.all %}
+                    <p class="likes">Liked by you and {{ post.total_likes }} others</p>
+                {% else %}
+                    <p class="likes">Liked by {{ post.total_likes }} others</p>
+                {% endif %}
+
+                <!-- Caption -->
+                <p class="caption"><strong>{{ post.caption }}</strong></p>
+
+                <!-- Hidden Comment Section -->
+                <div class="comment-section hidden" id="comment-section-{{ post.id }}">
+                    <form action="{% url 'add_comment' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="comment" placeholder="Add a comment..." required />
+                        <button type="submit">Post</button>
+                    </form>
+
+                    <!-- Existing Comments -->
+                    <div class="comments-list">
+                        {% for comment in post.comments.all %}
+                            <p><strong>{{ comment.user.username }}</strong> {{ comment.text }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <p class="show-less" data-post-id="{{ post.id }}">Show less</p>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+</main>
 {% endblock content %}
-                    

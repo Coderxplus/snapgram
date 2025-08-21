@@ -31,7 +31,12 @@
         
         <section class="gallery">
             {% for post in posts  %}
-                <a href="{% url 'post_edit' post.id %}"><img src="{{post.image.url}}" alt="Post"></a>
+                {% if request.user == posts.user %}
+                    <a href="{% url 'post_edit' post.id %}"><img src="{{post.image.url}}" alt="Post"></a>
+                {% else %}
+                    <a href="{% url 'post_detail' post.id %}"><img src="{{post.image.url}}" alt="Post"></a>
+                {% endif %}
+                
             {% endfor %}
             
         </section>

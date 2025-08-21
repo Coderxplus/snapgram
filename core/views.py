@@ -72,16 +72,17 @@ def like_post(request, post_id):
         post.likes.remove(request.user)
     else:
         post.likes.add(request.user)
-    return redirect('home')
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
 
 # Post Detail Page
 @login_required
-def post_detail(request, post_id, user):
+def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     return render(request, 'edit_post.html', {'post': post})
-
 @login_required
 def edit_post(request, post_id):
+
     post = get_object_or_404(Post, id=post_id, user=request.user)  # only own posts
 
     if request.method == 'POST':
@@ -94,8 +95,7 @@ def edit_post(request, post_id):
 
     return render(request, 'edit_post.html', {'form': form, 'post': post})
     
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+
 
 @login_required
 def del_post(request, post_id):
@@ -135,6 +135,7 @@ def add_comment(request, post_id):
         if text.strip():
             Comment.objects.create(post=post, user=request.user, text=text)
     
-    return redirect("home")  
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+ 
 
 # Create your views here.

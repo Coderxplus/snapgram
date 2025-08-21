@@ -17,7 +17,7 @@
             <img src="{{ post.user.profile.profile_pic.url }}" alt="User" class="avatar-edit">
             <span class="username">{{ post.user.username }}</span>
 
-            {% if user == post.user %}
+            {% if request.user == post.user %}
                 <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
                 <form class="del-btn" method="POST" action="{% url 'delete_post' post.id %}">
                     {% csrf_token %}
