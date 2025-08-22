@@ -21,7 +21,7 @@
                 <button class="btn-edit"><i class="fas fa-edit"></i> Edit</button>
                 <form class="del-btn" method="POST" action="{% url 'delete_post' post.id %}">
                     {% csrf_token %}
-                    <button class="btn-delete"> Delete</button>
+                    <button class="btn-delete" type="submit"> Delete</button>
                 </form>
             {% endif %}
         </div>

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
     'core',
-    'accounts'
+    'accounts',
+
 ]
 
 MIDDLEWARE = [
@@ -78,11 +85,9 @@ WSGI_APPLICATION = 'instagram_clone.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default='postgresql://postgres.zlormbowjaluivhubbxd:@Coderxplus1955@aws-1-eu-central-1.pooler.supabase.com:6543/postgres')
 }
+
 
 
 # Password validation
@@ -124,7 +129,16 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"] 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+CLOUDINARY_URL="cloudinary://<your_api_key>:<cXrr5qUy7BlNxf1YdlugnC-AshU>@dw4khqrhu"
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dw4khqrhu',
+    'API_KEY': '241859525513717',
+    'API_SECRET': 'cXrr5qUy7BlNxf1YdlugnC-AshU',
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
