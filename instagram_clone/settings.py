@@ -25,14 +25,14 @@ load_dotenv(BASE_DIR/ '.env')
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 APPEND_SLASH = True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get("HOST"), "127.0.0.1"]
 
 
 
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'instagram_clone.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
 
 
@@ -137,12 +137,12 @@ MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-CLOUDINARY_URL=os.getenv("CLOUDINARY_URL")
+CLOUDINARY_URL=os.environ.get("CLOUDINARY_URL")
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
-    'API_KEY': os.getenv("CLOUDINARY_API_KEY"),
-    'API_SECRET': os.getenv("CLOUDINARY_API_SECRET ")
+    'CLOUD_NAME': os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': os.environ.get("CLOUDINARY_API_KEY"),
+    'API_SECRET': os.environ.get("CLOUDINARY_API_SECRET ")
 }
 
 # Default primary key field type
