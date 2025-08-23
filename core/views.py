@@ -97,16 +97,20 @@ def edit_post(request, post_id):
     
 
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+
 @login_required
 def del_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    # Optional: ensure only the owner can delete
-    if post.user.username != request.user:
+    # Ensure only the owner can delete
+    if post.user != request.user:
         return redirect("home")
 
     post.delete()
     return redirect("home")
+
 
     
 @login_required

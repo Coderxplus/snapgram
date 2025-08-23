@@ -1,0 +1,17 @@
+Django>=4.2
+djangorestframework>=3.14.0
+gunicorn>=20.1.0
+
+# Cloudinary for media storage
+cloudinary>=1.36.0
+django-cloudinary-storage>=0.3.0
+
+# Supabase integration
+supabase-py>=2.4.0
+postgrest>=0.11.0
+
+# Database driver for PostgreSQL (used by Supabase)
+psycopg2-binary>=2.9.9
+
+# Environment variables
+python-dotenv>=1.0.0
