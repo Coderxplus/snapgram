@@ -1,24 +1,42 @@
 # Snapgram
-A simplified Instagram-like social media platform built with Django, HTML, and CSS. Users can sign up, log in, upload posts, like/unlike content, follow/unfollow other users, search for profiles. Features include profile pages, post likes counter, comment system, and responsive design for desktop and mobile.
 
+A simplified Instagram-like social media platform built with Django, Supabase, and Cloudinary. Users can sign up, log in, upload posts, like/unlike content, follow/unfollow other users, and search for profiles. Features include:
+✅ Profile pages
+✅ Post likes counter
+✅ Comment system
+✅ Responsive design for desktop and mobile
 
-
-## Tech Stack
+## 🚀 Tech Stack
 
 Backend: Django (Python)
 
 Frontend: HTML, CSS, JavaScript
 
-Database: SQLite (default in Django)
+Database: Supabase
+
+Image Handling: Cloudinary, Pillow
 
 Authentication: Django Auth System
 
-Deployment: (e.g., Render/Heroku) (add this if you plan to deploy)
+Deployment: Render
 
-Others: Pillow for image uploads
+## ✅ Features
 
+User authentication (Sign Up / Login / Logout)
 
-## ✅ Requirements
+Upload and display posts with images
+
+Like/Unlike functionality
+
+Follow/Unfollow users
+
+Comment system
+
+Search users
+
+Responsive UI
+
+## ⚙️ Requirements
 
 Python 3.10+
 
@@ -26,28 +44,50 @@ Django 4.x
 
 Virtual environment (recommended)
 
+Supabase account (for PostgreSQL DB)
+
+Cloudinary account (for image storage)
+
 Pillow (for image handling)
 
-SQLite (comes by default)
+## 📦 Setup
+1. Clone the repository
+git clone https://github.com/Coderxplus/snapgram.git
+cd snapgram
 
-
-## Setup
-
-### Clone the repository
-git clone https://github.com/your-username/instagram-clone.git
-cd instagram-clone
-
-### Create virtual environment
+2. Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # for Mac/Linux
-venv\Scripts\activate     # for Windows
+source venv/bin/activate  # Mac/Linux
+venv\Scripts\activate     # Windows
 
-### Install dependencies
+3. Install dependencies
 pip install -r requirements.txt
 
+4. Add environment variables
 
-### Run migrations
+Create a .env file and set:
+
+SECRET_KEY=your_django_secret_key
+DEBUG=False
+ALLOWED_HOSTS=your_render_url,localhost
+DATABASE_URL=your_supabase_database_url
+CLOUDINARY_URL=your_cloudinary_url
+
+5. Apply migrations
 python manage.py migrate
 
-### Start server
+6. Run the development server
 python manage.py runserver
+
+🌐 Deployment
+
+This project is deployed on Render.
+Live Demo: https://snapgram.onrender.com
+
+📷 Screenshots
+
+(Add some screenshots of your UI here)
+
+⭐ Contribute
+
+Feel free to fork, improve, and submit a pull request!
