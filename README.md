@@ -82,7 +82,7 @@ python manage.py runserver
 🌐 Deployment
 
 This project is deployed on Render.
-Live Demo: https://snapgram.onrender.com
+Live Demo: https://snapgram-4xft.onrender.com/
 
 📷 Screenshots
 
