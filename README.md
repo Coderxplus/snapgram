@@ -86,7 +86,7 @@ Live Demo: https://snapgram-4xft.onrender.com/
 
 📷 Screenshots
 
-(Add some screenshots of your UI here)
+
 
 ⭐ Contribute
 
