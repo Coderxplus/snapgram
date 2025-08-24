@@ -6,7 +6,7 @@
     <h1 class="login-header"> SnapGram </h1>
     <form class="login-form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ userform.as_p }}
+        {{ userform.as_p }}z
         {{ profileform.as_p }}
         <input class="btn-login"   class="btn btn-primary"
             type="submit"
