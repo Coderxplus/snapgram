@@ -1,6 +1,7 @@
 Django>=4.2
 djangorestframework>=3.14.0
 gunicorn>=20.1.0
+whitenoise>=6.6.0
 
 # Cloudinary for media storage
 cloudinary>=1.36.0
@@ -12,13 +13,10 @@ postgrest>=0.11.0
 
 # Database driver for PostgreSQL (used by Supabase)
 psycopg2-binary>=2.9.9
+dj-database-url>=2.2.0
 
-gunicorn 
+# Environment variables
+python-dotenv>=1.0.1
 
-whitenoise 
-
-psycopg2-binary 
-
-dj-database-url 
-
-python-dotenv
+# Image handling
+pillow
