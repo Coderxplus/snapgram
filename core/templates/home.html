@@ -77,18 +77,11 @@
 
                 <!-- Post Actions -->
                 <div class="post-actions">
-                    <form action="{% url 'like_post' post.id %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        {% if user in post.likes.all %}
-                            <button id="likeBtn" data-post-id="{{ post.id }}" type="submit" class="btn-like liked">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        {% else %}
-                            <button id="likeBtn" data-post-id="{{ post.id }}" type="submit" class="btn-like">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        {% endif %}
-                    </form>
+                    <button class="btn-like {% if user in post.likes.all %}liked{% endif %}" data-post-id="{{ post.id }}">
+                        <i class="fas fa-heart"></i> 
+                        <span class="like-count">{{ post.likes.count }}</span>
+                    </button>
+
 
                     <!-- Comment button -->
                     <button type="button" class="btn-icons btn-comment" data-post-id="{{ post.id }}">

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Follow, Comment
 from django.contrib.auth.models import User
 from .forms import PostForm
+from django.http import JsonResponse
 
 
 @login_required(login_url='login')
@@ -70,9 +71,15 @@ def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user in post.likes.all():
         post.likes.remove(request.user)
+        liked = False
     else:
         post.likes.add(request.user)
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+        liked = True
+    return JsonResponse({
+        'liked':liked,
+        'likes_count':post.likes.count()
+        
+    })
 
 
 # Post Detail Page

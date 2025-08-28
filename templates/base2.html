@@ -3,51 +3,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SnapGram</title>
 
-  <!-- Font Awesome -->
+
   <link 
     rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
 
-  <!-- Custom Styles -->
+
   <link rel="stylesheet" href="{% static 'style/style2.css' %}?v={{ timestamp }}">
-  
+
   <style>
-    /* Inline custom CSS if needed */
+    /* Add custom inline styles here if needed */
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <header class="navbar">
     <div class="logo">SnapGram</div>
 
-    <!-- Search Form -->
+    <!-- Search Bar -->
     <form method="GET" action="/" class="search-bar">
       <input 
         type="text" 
         name="q" 
         placeholder="Search..." 
         value="{{ request.GET.q }}"
-      >
+      />
       <button type="submit">Search</button>
     </form>
 
-    <!-- Navigation Icons -->
+
     <div class="nav-icons">
       <a href="/"><i class="fas fa-home"></i></a>
       <a href="#"><i class="far fa-paper-plane"></i></a>
       <a href="/post"><i class="far fa-plus-square"></i></a>
 
-      <!-- Profile Dropdown -->
       <div class="dropdown">
         <img 
           src="{{ user.profile.profile_pic.url }}" 
           class="avatar" 
-          alt="Profile" 
+          alt="Profile"
         />
         <div class="dropdown-menu">
           <a href="{% url 'profile' request.user.username %}">View Profile</a>
@@ -58,17 +56,13 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   {% block content %}
   {% endblock content %}
 
-  <!-- Scripts -->
   <script>
-    // Dropdown menu toggle
+  
     const dropdown = document.querySelector('.dropdown');
     const menu = document.querySelector('.dropdown-menu');
-    const fileInput = document.getElementById("profile_pic");
-    const preview = document.getElementById("preview-pic");
 
     dropdown.addEventListener('click', () => {
       menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
@@ -80,7 +74,10 @@
       }
     });
 
-    // Profile picture preview
+    
+    const fileInput = document.getElementById("profile_pic");
+    const preview = document.getElementById("preview-pic");
+
     if (fileInput) {
       fileInput.addEventListener("change", (event) => {
         const file = event.target.files[0];
@@ -90,19 +87,19 @@
       });
     }
 
-    // Comment section toggle
+    
     document.addEventListener("DOMContentLoaded", () => {
       const commentButtons = document.querySelectorAll(".btn-comment");
       const showLessLinks = document.querySelectorAll(".show-less");
       let activeSection = null;
 
-      // Expand/collapse comment section
+     
       commentButtons.forEach(button => {
         button.addEventListener("click", () => {
           const postId = button.dataset.postId;
           const section = document.getElementById(`comment-section-${postId}`);
 
-          // Hide previous open section
+          
           if (activeSection && activeSection !== section) {
             activeSection.classList.add("hidden");
           }
@@ -112,7 +109,7 @@
         });
       });
 
-      // Collapse when clicking "Show less"
+      
       showLessLinks.forEach(link => {
         link.addEventListener("click", () => {
           const postId = link.dataset.postId;
@@ -123,33 +120,4 @@
       });
     });
 
-    // Handle comment submission via AJAX
-    document.querySelectorAll('.comment-form').forEach(form => {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const postId = this.dataset.postId;
-        const formData = new FormData(this);
-
-        fetch(this.action, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            const commentsList = document.querySelector(`#comment-section-${postId} .comments-list`);
-            const newComment = `<p><strong>${data.username}</strong> ${data.text}</p>`;
-            commentsList.insertAdjacentHTML('beforeend', newComment);
-            this.reset();
-          }
-        });
-      });
-    });
-  </script>
-
-</body>
-</html>
+  

@@ -1,4 +1,4 @@
-# Snapgram
+p# Snapgram
 
 A simplified Instagram-like social media platform built with Django, Supabase, and Cloudinary. Users can sign up, log in, upload posts, like/unlike content, follow/unfollow other users, and search for profiles. Features include:
 ✅ Profile pages
