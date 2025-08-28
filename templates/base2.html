@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SnapGram</title>
 
-
+  <!-- Font Awesome -->
   <link 
     rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
 
-
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="{% static 'style/style2.css' %}?v={{ timestamp }}">
 
   <style>
@@ -21,6 +21,7 @@
 </head>
 <body>
 
+  <!-- ================= Navbar ================= -->
   <header class="navbar">
     <div class="logo">SnapGram</div>
 
@@ -35,12 +36,13 @@
       <button type="submit">Search</button>
     </form>
 
-
+    <!-- Navigation Icons -->
     <div class="nav-icons">
       <a href="/"><i class="fas fa-home"></i></a>
       <a href="#"><i class="far fa-paper-plane"></i></a>
       <a href="/post"><i class="far fa-plus-square"></i></a>
 
+      <!-- Profile Dropdown -->
       <div class="dropdown">
         <img 
           src="{{ user.profile.profile_pic.url }}" 
@@ -56,11 +58,12 @@
     </div>
   </header>
 
+
   {% block content %}
   {% endblock content %}
 
   <script>
-  
+   
     const dropdown = document.querySelector('.dropdown');
     const menu = document.querySelector('.dropdown-menu');
 
@@ -74,7 +77,7 @@
       }
     });
 
-    
+    // ========== Profile Picture Preview ==========
     const fileInput = document.getElementById("profile_pic");
     const preview = document.getElementById("preview-pic");
 
@@ -87,19 +90,19 @@
       });
     }
 
-    
+    // ========== Comment Section Toggle ==========
     document.addEventListener("DOMContentLoaded", () => {
       const commentButtons = document.querySelectorAll(".btn-comment");
       const showLessLinks = document.querySelectorAll(".show-less");
       let activeSection = null;
 
-     
+      // Expand/collapse comment section
       commentButtons.forEach(button => {
         button.addEventListener("click", () => {
           const postId = button.dataset.postId;
           const section = document.getElementById(`comment-section-${postId}`);
 
-          
+          // Hide previous open section
           if (activeSection && activeSection !== section) {
             activeSection.classList.add("hidden");
           }
@@ -109,7 +112,7 @@
         });
       });
 
-      
+      // Collapse when clicking "Show less"
       showLessLinks.forEach(link => {
         link.addEventListener("click", () => {
           const postId = link.dataset.postId;
@@ -120,4 +123,75 @@
       });
     });
 
-  
+    // ========== Handle Comment Submission via AJAX ==========
+    document.querySelectorAll('.comment-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const postId = this.dataset.postId;
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const commentsList = document.querySelector(`#comment-section-${postId} .comments-list`);
+            const newComment = `<p><strong>${data.username}</strong> ${data.text}</p>`;
+            commentsList.insertAdjacentHTML('beforeend', newComment);
+            this.reset();
+          }
+        });
+      });
+    });
+
+    // ========== Like Button AJAX Toggle ==========
+    document.querySelectorAll('.btn-like').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const postId = this.dataset.postId;
+
+        fetch(`/like/${postId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.liked) {
+            this.classList.add('liked');
+          } else {
+            this.classList.remove('liked');
+          }
+          this.querySelector('.like-count').innerText = data.likes_count;
+        });
+      });
+    });
+
+    // ========== CSRF Token Helper ==========
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+
+</body>
+</html>
