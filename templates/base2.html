@@ -175,6 +175,32 @@
         });
       });
     });
+    document.querySelectorAll('.comment-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const postId = this.dataset.postId;
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const commentsList = document.querySelector(`#comment-section-${postId} .comments-list`);
+            const newComment = `<p><strong>${data.username}</strong> ${data.text}</p>`;
+            commentsList.insertAdjacentHTML('beforeend', newComment);
+            this.reset(); // Clear input
+      }
+    });
+  });
+});
+
 
     // ========== CSRF Token Helper ==========
     function getCookie(name) {

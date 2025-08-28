@@ -78,7 +78,7 @@ def like_post(request, post_id):
     return JsonResponse({
         'liked':liked,
         'likes_count':post.likes.count()
-        
+
     })
 
 
@@ -144,9 +144,15 @@ def add_comment(request, post_id):
     if request.method == "POST":
         text = request.POST.get("comment")
         if text.strip():
-            Comment.objects.create(post=post, user=request.user, text=text)
+            comment = Comment.objects.create(post=post, user=request.user, text=text)
+
+            return JsonResponse({
+                'success':True,
+                'username':request.user.username,
+                'text':comment.text
+            })
     
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return JsonResponse({'success': False})
  
 
 # Create your views here.
